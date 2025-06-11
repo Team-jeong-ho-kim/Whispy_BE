@@ -32,7 +32,7 @@ public class S3Service {
     @Value("${cloud.aws.s3.url-prefix}")
     private String urlPrefix;
 
-    public String upload(MultipartFile file) throws IOException {
+    public String upload(MultipartFile file) {
         String fileName = file.getOriginalFilename();
         validate(fileName);
 
