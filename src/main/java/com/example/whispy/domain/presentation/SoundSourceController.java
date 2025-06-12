@@ -1,31 +1,58 @@
 package com.example.whispy.domain.presentation;
 
+import com.example.whispy.domain.domain.enums.Theme;
 import com.example.whispy.domain.presentation.dto.request.DeleteRequest;
-import com.example.whispy.domain.service.S3Service;
+import com.example.whispy.domain.presentation.dto.request.UploadRequest;
+import com.example.whispy.domain.presentation.dto.response.SoundSourceResponse;
+import com.example.whispy.domain.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import jakarta.validation.Valid;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/sound")
 @RequiredArgsConstructor
 public class SoundSourceController {
     private final S3Service s3Service;
+    private final CreateAudioService createAudioService;
+    private final DeleteAudioService deleteAudioService;
+    private final QueryAllAudioService queryAllAudioService;
+    private final QueryAudioByThemeService queryAudioByThemeService;
 
-    @PostMapping
+    @PostMapping("/upload")
     @ResponseStatus(HttpStatus.CREATED)
-    public void upload(@RequestPart(value = "audio") MultipartFile file) throws IOException {
+    public void upload(@RequestPart(value = "audio") MultipartFile file) {
         s3Service.upload(file);
     }
 
-    @DeleteMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createSoundSource(@RequestPart(name = "request") @Valid UploadRequest request,
+                                  @RequestPart(name = "audio") MultipartFile audio) {
+        createAudioService.execute(request, audio);
+    }
+
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@RequestBody @Valid DeleteRequest request) {
-        s3Service.delete(request.getS3Url());
+    public void delete(@PathVariable Long id, @RequestBody @Valid DeleteRequest request) {
+        deleteAudioService.execute(id, request);
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<SoundSourceResponse> queryAll() {
+        return queryAllAudioService.execute();
+    }
+
+    @GetMapping("/{theme}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<SoundSourceResponse> queryAudioByTheme(@PathVariable Theme theme) {
+        return queryAudioByThemeService.execute(theme);
     }
 
 }
