@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
-public class CreateUploadService {
+public class CreateAudioService {
     private final S3Service s3Service;
     private final SoundSourceRepository soundSourceRepository;
 
