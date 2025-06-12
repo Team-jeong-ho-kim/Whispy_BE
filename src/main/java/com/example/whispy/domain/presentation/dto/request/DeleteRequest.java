@@ -9,5 +9,5 @@ import lombok.Getter;
 public class DeleteRequest {
 
     @NotNull(message = "null일 수 없습니다")
-    private String s3Url;
+    private String audioUrl;
 }
