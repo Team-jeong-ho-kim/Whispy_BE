@@ -2,7 +2,6 @@ package com.example.whispy.domain.service;
 
 import com.example.whispy.domain.domain.SoundSource;
 import com.example.whispy.domain.domain.repository.SoundSourceRepository;
-import com.example.whispy.domain.presentation.dto.request.DeleteRequest;
 import com.example.whispy.global.error.ErrorCode;
 import com.example.whispy.global.error.S3AudioException;
 import lombok.RequiredArgsConstructor;
