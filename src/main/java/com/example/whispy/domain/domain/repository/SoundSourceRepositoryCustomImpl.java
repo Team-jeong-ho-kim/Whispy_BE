@@ -2,8 +2,8 @@ package com.example.whispy.domain.domain.repository;
 
 import com.example.whispy.domain.domain.QSoundSource;
 import com.example.whispy.domain.domain.enums.Theme;
+import com.example.whispy.domain.presentation.dto.response.QSoundSourceResponse;
 import com.example.whispy.domain.presentation.dto.response.SoundSourceResponse;
-import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
