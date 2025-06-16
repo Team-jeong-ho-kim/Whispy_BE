@@ -16,12 +16,12 @@ public class SoundSourceRepositoryCustomImpl implements SoundSourceRepositoryCus
 
     @Override
     public List<SoundSourceResponse> queryAllAudio() {
-        return jpaQueryFactory.select(Projections.constructor(
-                        SoundSourceResponse.class,
+        return jpaQueryFactory
+                .select(new QSoundSourceResponse(
                         qSoundSource.id,
                         qSoundSource.name,
-                        qSoundSource.s3Url,
                         qSoundSource.theme,
+                        qSoundSource.s3Url,
                         qSoundSource.createdAt
                 ))
                 .from(qSoundSource)
