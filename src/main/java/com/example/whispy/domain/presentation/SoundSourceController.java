@@ -1,7 +1,6 @@
 package com.example.whispy.domain.presentation;
 
 import com.example.whispy.domain.domain.enums.Theme;
-import com.example.whispy.domain.presentation.dto.request.DeleteRequest;
 import com.example.whispy.domain.presentation.dto.request.UploadRequest;
 import com.example.whispy.domain.presentation.dto.response.SoundSourceResponse;
 import com.example.whispy.domain.service.*;
@@ -39,8 +38,8 @@ public class SoundSourceController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id, @RequestBody @Valid DeleteRequest request) {
-        deleteAudioService.execute(id, request);
+    public void delete(@PathVariable Long id) {
+        deleteAudioService.execute(id);
     }
 
     @GetMapping
