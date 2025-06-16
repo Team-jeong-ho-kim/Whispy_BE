@@ -52,9 +52,9 @@ public class S3Service {
         }
     }
 
-    public void delete(String s3Url) {
+    public void delete(String audioUrl) {
         try {
-            URL url = new URI(s3Url).toURL();
+            URL url = new URI(audioUrl).toURL();
             String decodedKey = URLDecoder.decode(url.getPath(), StandardCharsets.UTF_8);
             String key = decodedKey.startsWith("/") ? decodedKey.substring(1) : decodedKey;
 
@@ -84,3 +84,4 @@ public class S3Service {
         return fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
     }
 }
+
