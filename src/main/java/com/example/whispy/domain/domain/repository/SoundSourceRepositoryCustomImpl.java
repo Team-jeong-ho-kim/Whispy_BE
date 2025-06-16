@@ -31,18 +31,19 @@ public class SoundSourceRepositoryCustomImpl implements SoundSourceRepositoryCus
 
     @Override
     public List<SoundSourceResponse> queryAudioByTheme(Theme theme) {
-        return jpaQueryFactory.select(Projections.constructor(
-                SoundSourceResponse.class,
-                qSoundSource.id,
-                qSoundSource.name,
-                qSoundSource.s3Url,
-                qSoundSource.theme,
-                qSoundSource.createdAt
-        ))
+        return jpaQueryFactory
+                .select(new QSoundSourceResponse(
+                        qSoundSource.id,
+                        qSoundSource.name,
+                        qSoundSource.theme,
+                        qSoundSource.s3Url,
+                        qSoundSource.createdAt
+                ))
                 .from(qSoundSource)
                 .where(qSoundSource.theme.eq(theme))
                 .orderBy(qSoundSource.createdAt.desc())
                 .fetch();
     }
+
 
 }
