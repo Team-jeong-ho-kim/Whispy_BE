@@ -13,6 +13,29 @@ java {
     }
 }
 
+def generated = 'src/main/generated'
+
+sourceSets {
+    main {
+        java {
+            srcDirs += [generated]
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.getGeneratedSourceOutputDirectory().set(file(generated))
+    options.annotationProcessorGeneratedSourcesDirectory = file(generated)
+}
+
+clean {
+    delete file(generated)
+}
+
+ext {
+    querydslVersion = '5.0.0'
+}
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
@@ -35,22 +58,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     // querydsl
-    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
-    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+    implementation "com.querydsl:querydsl-jpa:${querydslVersion}:jakarta"
+    annotationProcessor "com.querydsl:querydsl-apt:${querydslVersion}:jakarta"
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 }
 
 tasks.named('test') {
     useJUnitPlatform()
-}
-
-def generated = 'src/main/generated'
-
-tasks.withType(JavaCompile).configureEach {
-    options.getGeneratedSourceOutputDirectory().set(file(generated))
-}
-
-clean {
-    delete file(generated)
 }
