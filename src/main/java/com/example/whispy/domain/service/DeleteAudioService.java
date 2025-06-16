@@ -13,11 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class DeleteAudioService {
     private final SoundSourceRepository soundSourceRepository;
+    private final S3Service s3Service;
 
     @Transactional
-    public void execute(Long id, DeleteRequest request) {
+    public void execute(Long id) {
         SoundSource soundSource = soundSourceRepository.findById(id)
                 .orElseThrow(() -> new S3AudioException(ErrorCode.AUDIO_NOT_FOUND));
+
+        s3Service.delete(soundSource.getS3Url());
 
         soundSourceRepository.delete(soundSource);
     }
