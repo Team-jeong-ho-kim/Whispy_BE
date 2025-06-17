@@ -53,5 +53,4 @@ public class SoundSourceController {
     public List<SoundSourceResponse> queryAudioByTheme(@PathVariable Theme theme) {
         return queryAudioByThemeService.execute(theme);
     }
-
 }
